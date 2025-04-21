@@ -1,40 +1,16 @@
 name: Test and Deploy
 on: [push, workflow_dispatch]
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Fetch code
-        uses: actions/checkout@v4
-      - name: Install Node.js latest
-        uses: actions/setup-node@v3.9.1
-      - name: Install dependencies
-        run: npm ci
-      - name: Run Lint
-        run: npm run lint
-
-  test:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Fetch code
-        uses: actions/checkout@v4
-      - name: Install Node.js latest
-        uses: actions/setup-node@v3.9.1
-      - name: Install dependencies
-        run: npm ci
-      - name: Run test
-        run: npm run test
-
   deploy:
-    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Fetch code
         uses: actions/checkout@v4
-      - name: Install Node.js latest
-        uses: actions/setup-node@v3.9.1
       - name: Install dependencies
         run: npm ci
-      - name: Run deploy
+      - name: Lint
+        run: npm run lint
+      - name: test
+        run: npm run test
+      - name: deploy
         run: echo "Deploying..."
